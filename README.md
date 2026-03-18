@@ -107,7 +107,7 @@ El proyecto se desarrolla utilizando el marco de trabajo Scrum, siguiendo las fa
 - CSS3  
 - JavaScript  
 - Git y GitHub  
-- Jira Softwareo (gestión del proyecto)  
+- Jira Software (gestión del proyecto)  
 
 ---
 
