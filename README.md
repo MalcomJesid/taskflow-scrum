@@ -1,3 +1,19 @@
+## 📊 Gestión del proyecto (Jira)
+
+El seguimiento del proyecto se realiza mediante Jira Software, donde se gestionan:
+
+- Product Backlog  
+- Sprint Backlog  
+- Historias de usuario  
+- Progreso del sprint  
+
+🔗 **Tablero Jira:** https://espacio-de-trabajo-de-malcom-yesid.atlassian.net/jira/software/projects/ABC/boards/1/backlog  
+
+> Nota: El acceso al tablero puede requerir permisos.
+
+---
+
+
 # TaskFlow Scrum
 
 Aplicación web de gestión de tareas desarrollada bajo la metodología Scrum, orientada a mejorar la organización y productividad de estudiantes y profesionales.
