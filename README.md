@@ -7,7 +7,7 @@ El seguimiento del proyecto se realiza mediante Jira Software, donde se gestiona
 - Historias de usuario  
 - Progreso del sprint  
 
-🔗 **Tablero Jira:** https://espacio-de-trabajo-de-malcom-yesid.atlassian.net/jira/software/projects/ABC/boards/1/backlog  
+🔗 **Tablero Jira:** https://malconyfigue.atlassian.net/jira/software/projects/KAN/list?jql=project+%3D+KAN+ORDER+BY+cf%5B10019%5D+ASC&atlOrigin=eyJpIjoiNDBlMTBmMWFhMDc0NGZiMmE4ZThiNzg3ZmRkNzRmMzgiLCJwIjoiaiJ9
 
 > Nota: El acceso al tablero puede requerir permisos.
 
