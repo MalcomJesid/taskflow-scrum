@@ -1,0 +1,225 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.badge {
+  background: #4f46e5;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* Form */
+.todo-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 1rem;
+}
+
+.todo-form input {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.6rem 0.9rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.todo-form input:focus { border-color: #4f46e5; }
+
+.todo-form button {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.todo-form button:hover { background: #4338ca; }
+
+/* Filter */
+.todo-filter {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.todo-filter button {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  color: #555;
+}
+
+.todo-filter button.active {
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4f46e5;
+}
+
+/* List */
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.todo-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: opacity 0.2s;
+}
+
+.todo-item.completed { opacity: 0.6; }
+
+.todo-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4f46e5;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.todo-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.todo-title {
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.todo-item.completed .todo-title {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+.todo-desc {
+  font-size: 0.82rem;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.btn-edit, .btn-delete, .btn-save, .btn-cancel {
+  padding: 0.3rem 0.7rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-edit  { background: #e0e7ff; color: #4f46e5; }
+.btn-edit:hover { background: #c7d2fe; }
+.btn-delete { background: #fee2e2; color: #dc2626; }
+.btn-delete:hover { background: #fecaca; }
+.btn-save  { background: #d1fae5; color: #059669; }
+.btn-save:hover { background: #a7f3d0; }
+.btn-cancel { background: #f3f4f6; color: #555; }
+.btn-cancel:hover { background: #e5e7eb; }
+
+/* Edit mode */
+.todo-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.todo-edit input {
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.todo-edit input:focus { border-color: #4f46e5; }
+
+.todo-edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* Misc */
+.error-msg {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.loading, .empty {
+  text-align: center;
+  color: #888;
+  padding: 2rem 0;
+  font-size: 0.95rem;
+}
