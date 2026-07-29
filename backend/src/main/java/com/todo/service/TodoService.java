@@ -5,6 +5,8 @@ import com.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class TodoService {
@@ -15,38 +17,39 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    public List<Todo> getAll() {
-        return todoRepository.findAllByOrderByCreatedAtDesc();
+    public List<Todo> getAllByUser(UUID userId) {
+        return todoRepository.findByUserIdOrderByCreatedAtDesc(userId);
     }
 
-    public List<Todo> getByStatus(boolean completed) {
-        return todoRepository.findByCompletedOrderByCreatedAtDesc(completed);
+    public List<Todo> getByStatusForUser(boolean completed, UUID userId) {
+        return todoRepository.findByUserIdAndCompletedOrderByCreatedAtDesc(userId, completed);
     }
 
-    public Todo getById(Long id) {
-        return todoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Todo no encontrado con id: " + id));
-    }
-
-    public Todo create(Todo todo) {
+    public Todo createForUser(Todo todo, UUID userId) {
+        todo.setUserId(userId);
+        todo.setId(null);
         return todoRepository.save(todo);
     }
 
-    public Todo update(Long id, Todo updated) {
-        Todo existing = getById(id);
-        existing.setTitle(updated.getTitle());
-        existing.setDescription(updated.getDescription());
-        existing.setCompleted(updated.isCompleted());
+    public Todo updateForUser(Long id, Todo data, UUID userId) {
+        Todo existing = todoRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new NoSuchElementException("No encontrada"));
+        existing.setTitle(data.getTitle());
+        existing.setDescription(data.getDescription());
+        existing.setCompleted(data.isCompleted());
         return todoRepository.save(existing);
     }
 
-    public void delete(Long id) {
-        todoRepository.deleteById(id);
+    public Todo toggleForUser(Long id, UUID userId) {
+        Todo existing = todoRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new NoSuchElementException("No encontrada"));
+        existing.setCompleted(!existing.isCompleted());
+        return todoRepository.save(existing);
     }
 
-    public Todo toggleCompleted(Long id) {
-        Todo todo = getById(id);
-        todo.setCompleted(!todo.isCompleted());
-        return todoRepository.save(todo);
+    public void deleteForUser(Long id, UUID userId) {
+        Todo existing = todoRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new NoSuchElementException("No encontrada"));
+        todoRepository.delete(existing);
     }
 }

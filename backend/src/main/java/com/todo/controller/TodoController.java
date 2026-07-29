@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
@@ -29,44 +30,40 @@ public class TodoController {
             @AuthenticationPrincipal Jwt jwt) {
         UUID userId = AuthUtils.currentUserId(jwt);
         if (completed != null) {
-            return ResponseEntity.ok(todoService.getByStatus(completed));
+            return ResponseEntity.ok(todoService.getByStatusForUser(completed, userId));
         }
-        return ResponseEntity.ok(todoService.getAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Todo> getById(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
-        AuthUtils.currentUserId(jwt);
-        return ResponseEntity.ok(todoService.getById(id));
+        return ResponseEntity.ok(todoService.getAllByUser(userId));
     }
 
     @PostMapping
     public ResponseEntity<Todo> create(@RequestBody Todo todo, @AuthenticationPrincipal Jwt jwt) {
-        AuthUtils.currentUserId(jwt);
-        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.create(todo));
+        Todo created = todoService.createForUser(todo, AuthUtils.currentUserId(jwt));
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Todo> update(@PathVariable Long id, @RequestBody Todo todo, @AuthenticationPrincipal Jwt jwt) {
-        AuthUtils.currentUserId(jwt);
-        return ResponseEntity.ok(todoService.update(id, todo));
+        return ResponseEntity.ok(todoService.updateForUser(id, todo, AuthUtils.currentUserId(jwt)));
     }
 
     @PatchMapping("/{id}/toggle")
     public ResponseEntity<Todo> toggle(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
-        AuthUtils.currentUserId(jwt);
-        return ResponseEntity.ok(todoService.toggleCompleted(id));
+        return ResponseEntity.ok(todoService.toggleForUser(id, AuthUtils.currentUserId(jwt)));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
-        AuthUtils.currentUserId(jwt);
-        todoService.delete(id);
+        todoService.deleteForUser(id, AuthUtils.currentUserId(jwt));
         return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler({IllegalStateException.class, IllegalArgumentException.class})
     public ResponseEntity<?> handleAuth(RuntimeException ex) {
         return ResponseEntity.status(401).body(Map.of("error", "Token inv\u00e1lido"));
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<?> notFound() {
+        return ResponseEntity.status(404).body(Map.of("error", "No encontrada"));
     }
 }
