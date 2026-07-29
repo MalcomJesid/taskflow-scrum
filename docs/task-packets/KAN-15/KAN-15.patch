@@ -1,0 +1,70 @@
+diff --git a/.gitignore b/.gitignore
+index dc39e7d..6c2e262 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,3 +1,19 @@
+-node_modules/ 
+-.env 
+-.vscode/ 
++# Dependencias
++node_modules/
++
++# Variables de entorno (secretos) — nunca subir
++.env
++.env.local
++.env.*.local
++
++# Editores / IDE
++.vscode/
++.idea/
++
++# Compilados de Java / Maven
++target/
++*.class
++
++# Logs y temporales del sistema
++*.log
++.DS_Store
+diff --git a/backend/.env.example b/backend/.env.example
+new file mode 100644
+index 0000000..34e4671
+--- /dev/null
++++ b/backend/.env.example
+@@ -0,0 +1,13 @@
++# Variables de entorno del backend — TaskFlow Scrum
++# Copia este archivo a `.env` y ajusta los valores. NUNCA subas `.env` al repositorio.
++
++# --- Base de datos (PostgreSQL) ---
++DB_URL=jdbc:postgresql://localhost:5432/tododb
++DB_USERNAME=todouser
++DB_PASSWORD=todopass
++
++# --- Servidor ---
++SERVER_PORT=8080
++
++# --- CORS (origen del frontend en desarrollo) ---
++CORS_ALLOWED_ORIGINS=http://localhost:5173
+diff --git a/backend/src/main/resources/application.properties b/backend/src/main/resources/application.properties
+index 235a8d4..9e2cfe9 100644
+--- a/backend/src/main/resources/application.properties
++++ b/backend/src/main/resources/application.properties
+@@ -1,6 +1,6 @@
+-spring.datasource.url=jdbc:postgresql://localhost:5432/tododb
+-spring.datasource.username=todouser
+-spring.datasource.password=todopass
++spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/tododb}
++spring.datasource.username=${DB_USERNAME:todouser}
++spring.datasource.password=${DB_PASSWORD:todopass}
+ spring.datasource.driver-class-name=org.postgresql.Driver
+ 
+ # Hibernate genera/actualiza la BD automaticamente
+@@ -9,7 +9,7 @@ spring.jpa.show-sql=true
+ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+ spring.jpa.properties.hibernate.format_sql=true
+ 
+-server.port=8080
++server.port=${SERVER_PORT:8080}
+ 
+ # CORS permitir React en desarrollo
+-spring.web.cors.allowed-origins=http://localhost:5173
++spring.web.cors.allowed-origins=${CORS_ALLOWED_ORIGINS:http://localhost:5173}
