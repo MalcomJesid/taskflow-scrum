@@ -8,7 +8,29 @@ paginate: true
 ## Incorporación de autenticación segura
 
 Equipo Scrum · Proyecto KAN
+Marco: **SBOK 5.ª edición** · Entrega académica
 Fecha: `[completar]`
+
+---
+
+# Objetivo de la exposición
+
+- Mostrar **cómo aplicamos Scrum (SBOK)** a un proyecto de software real.
+- Explicar la **decisión de arquitectura** de seguridad y por qué.
+- Presentar el **estado actual** de la implementación con honestidad: qué ya funciona y qué falta.
+
+> Foco académico: el **proceso** (roles, artefactos, flujo de trabajo) tanto como el producto.
+
+---
+
+# Marco metodológico — Scrum (SBOK)
+
+- **Producto (Product Backlog):** el trabajo se descompone en *user stories* trazables en Jira (proyecto KAN).
+- **Sprints:** entregas incrementales; cada tarea aporta valor verificable.
+- **Artefactos de proceso:** backlog priorizado, tablero KAN, métricas (velocity, burndown, CFD, cycle time).
+- **Trazabilidad total:** cada cambio de código enlaza con su clave de Jira (`KAN-XX`).
+
+> Cada tarea se documenta como un **paquete reproducible** — el proceso es tan entregable como el código.
 
 ---
 
@@ -16,7 +38,7 @@ Fecha: `[completar]`
 
 - La aplicación de tareas era **anónima**: cualquiera veía y editaba todo.
 - Sin identidad de usuario → sin privacidad ni responsabilidad.
-- **Objetivo:** que cada persona vea y gestione **solo sus** tareas, de forma segura.
+- **Objetivo del producto:** que cada persona vea y gestione **solo sus** tareas, de forma segura.
 
 ---
 
@@ -75,6 +97,8 @@ Spring Boot (Resource Server)
 - **Frontend y backend nunca comparten rama.**
 - Guías de Git separadas para Windows (sin `&&`) y macOS/Linux.
 
+> Diseñado para que un compañero *junior* reproduzca cada paso sin ambigüedad.
+
 ---
 
 # Orden de implementación
@@ -88,32 +112,48 @@ Las dependencias están mapeadas para evitar bloqueos entre los dos desarrollado
 
 ---
 
-# Estado y métricas
+# Estado actual de la implementación
 
-> Rellenar con datos reales de Jira antes de presentar.
+**✅ Completado y funcionando**
+- Proyecto **Supabase creado** y operativo (Auth activo).
+- **Registro e inicio de sesión** desde React (KAN-29 → KAN-33): sesión persistente, rutas protegidas, cierre de sesión.
 
-- Sprints ejecutados: `[completar]`
-- Velocidad promedio: `[completar]` SP
-- % cumplimiento del último sprint: `[completar]`
-- Tareas cerradas / totales: `[completar]`
+**🔄 En curso — próxima fase (KAN-34 → KAN-37)**
+- Validación del JWT y **aislamiento de tareas por usuario** en el backend.
+- Hasta completarla, las tareas aún se **comparten** entre usuarios.
+
+---
+
+# Estado y métricas del proceso
+
+> Las métricas se llenan **solo** con datos reales de Jira (`docs/metrics/`). No se presentan cifras inventadas.
+
+- Sprints ejecutados: `[completar — Jira]`
+- Velocidad promedio: `[completar — Jira]` SP
+- % cumplimiento del último sprint: `[completar — Jira]`
+- Tareas cerradas / totales: `[completar — Jira]`
+
+> Fuente: *Velocity Report* y *Sprint Report* del tablero KAN.
 
 ---
 
 # Riesgos gestionados
 
-- JDK 17 en máquina vs. Java 21 requerido → `[estado]`
-- `backend/target/` versionado en Git → `[estado]`
-- Credenciales en texto plano → **resuelto (KAN-15)** `[confirmar]`
-- Proyecto Supabase aún no creado → prerrequisito para pruebas de integración
+- Diferencia JDK 17 vs. Java 21 requerido → **resuelto** (entorno alineado a Java 21).
+- `backend/target/` versionado en Git → **resuelto** (`git rm --cached` + `.gitignore`).
+- Credenciales en texto plano → **resuelto** (variables de entorno, **KAN-15**).
+- Proyecto Supabase → **creado** ✅ (ya no es un bloqueo).
+
+> Riesgo activo: el aislamiento por usuario (KAN-34→37) sigue pendiente.
 
 ---
 
 # Próximos pasos
 
-1. Crear el proyecto Supabase (URL + JWKS + claves).
-2. Ejecutar los paquetes en orden (`EJECUTAR KAN-XX`).
-3. Verificar pruebas de aislamiento con **dos usuarios**.
-4. Capturar métricas reales y evidencias.
+1. Ejecutar los paquetes **KAN-34 → KAN-37** (validación JWT + aislamiento por usuario).
+2. Enviar el `Bearer <token>` desde el frontend en cada petición.
+3. Verificar el aislamiento con **dos usuarios** reales (usuario A no ve tareas de B).
+4. Capturar **métricas reales** de Jira y adjuntar evidencias.
 
 ---
 
